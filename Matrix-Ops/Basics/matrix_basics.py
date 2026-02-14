@@ -3,7 +3,7 @@ class Matrix:
         self.data=data
         #Dimensions
         self.rows = len(data)       # Number of rows
-        self.columns = len(data[0])     # Number of rows
+        self.columns = len(data[0])     # Number of cols
 
     def shape(self):
         # Return dimensions
