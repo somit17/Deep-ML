@@ -1,5 +1,4 @@
 import numpy as np
-from numpy.ma.core import identity
 
 rows = 4
 cols = 4
@@ -49,9 +48,46 @@ print(f"Variance - {np.var(arr)}")
 
 
 #Question 6
-rows = 3
-cols = 4
-matrix = np.random.randint(0,13,size=(rows,cols))
+matrix = np.random.randint(0,13,size=(3,4))
 print(f"Matrix {matrix}")
 print(f"First 2 rows = {matrix[:2,:]}")
 print(f"Last 2 cols = {matrix[:,:-2]}")
+
+
+#Question 7
+arr = np.random.randint(-10,11,size=10)
+print(f"Original array: {arr}")
+# Replace negative numbers with 0
+arr[arr < 0] = 0
+print(f"After replacing negatives with 0: {arr}")
+
+
+#Question 8
+matrix_a = np.array([
+    [1,2,3],
+    [4,5,6]
+])
+matrix_b = np.array([
+    [7,8,9],
+    [10,11,12]
+])
+print(f"Original Matrix A - {matrix_a} and B - {matrix_b}")
+# Vertical (stack rows) - axis=0
+print(f"Result of concatenating Vertically - {np.concatenate((matrix_a,matrix_b),axis=0)}")
+# Horizontal (stack columns) - axis=1
+print(f"Result of concatenating Vertically - {np.concatenate((matrix_a,matrix_b),axis=1)}")
+
+#Question 9
+
+arr = np.random.rand(100)
+indices = np.where(arr > 0.8)[0]  # [0] extracts from tuple
+print(indices)  # e.g., [1, 4, 8, 15, ...]
+
+
+#Question 10
+matrix = np.random.randint(1,20,size=(4,4))
+
+print(f"Matrix - {matrix}")
+print(f"Row wise Addition - {matrix.sum(axis=1)}")# Sum ACROSS rows (each column)
+print(f"Column wise Addition - {matrix.sum(axis=0)}") # Sum ACROSS columns (each row)
+
