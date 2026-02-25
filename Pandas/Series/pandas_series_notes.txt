@@ -1,0 +1,47 @@
+==================================================
+PANDAS SERIES - KEY METHODS & ATTRIBUTES NOTES
+==================================================
+
+1. pd.Series() Constructor
+--------------------------
+- Creates a new Series object from various inputs like lists, dictionaries, 
+  or scalars
+- Automatically creates default integer index if no index is explicitly 
+  provided
+
+2. .index attribute
+-------------------
+- Returns the index labels of the Series
+- Can be accessed to view or modify the index labels
+
+3. .values attribute
+--------------------
+- Returns the underlying numpy array containing the Series data
+- Useful for numerical operations and converting Series to numpy array
+
+4. .loc[] indexer
+-----------------
+- Label-based accessor for selecting or assigning values by index label(s)
+- Supports single labels, lists of labels, or label slices
+
+5. np.exp()
+-----------
+- NumPy universal function that calculates exponential (e^x) on Series 
+  elements
+- Maintains the original index while transforming all values
+
+6. 'in' operator
+----------------
+- Membership test operator that checks if a label exists in Series index
+- Returns boolean value (True if label exists, False otherwise)
+
+7. pd.isnull() / pd.notnull()
+------------------------------
+- Functions to detect missing values (NaN) in Series
+- Returns boolean Series of same shape indicating null/non-null positions
+
+8. Series Alignment
+-------------------
+- Automatic feature when performing operations between multiple Series
+- Matches and aligns values based on index labels before computation
+

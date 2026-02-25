@@ -1,0 +1,82 @@
+============================================================
+PANDAS DATAFRAME - KEY METHODS & OPERATIONS NOTES
+============================================================
+
+1. pd.DataFrame() Constructor
+------------------------------
+- Creates a new DataFrame object from various inputs like dictionaries,
+  lists, or numpy arrays
+- Automatically creates default integer index if no index is provided
+- Syntax: pd.DataFrame(data, columns=[], index=[])
+
+2. np.random.seed()
+--------------------
+- Sets the random seed for reproducible random number generation
+- Ensures same random values are generated each time code runs
+- Should be called before any random operations
+
+3. np.random.choice()
+----------------------
+- Randomly selects elements from a given list/array
+- First parameter: list to choose from
+- Second parameter: number of items to select
+
+4. np.random.randint()
+-----------------------
+- Generates random integers within a specified range
+- Parameters: low (inclusive), high (exclusive), size
+- Returns array of random integers
+
+5. Adding New Columns
+----------------------
+- Use bracket notation: dataframe['new_column'] = values
+- Values must have same length as existing DataFrame
+- Can assign lists, arrays, or scalar values
+
+6. Deleting Columns
+--------------------
+- Use 'del' keyword: del dataframe['column_name']
+- Permanently removes the specified column
+- Operation modifies original DataFrame
+
+7. .loc[] Indexer
+------------------
+- Label-based accessor for selecting rows and columns
+- Syntax: .loc[row_label, column_label]
+- Supports single labels, lists, or slices
+
+8. rename() Method
+-------------------
+- Changes column or index labels
+- Parameters: columns={}, index={} for renaming
+- inplace=True modifies original DataFrame
+
+9. print() with f-strings
+--------------------------
+- f-strings allow embedding expressions inside string literals
+- Syntax: f"Text {variable} more text"
+- \n adds newline character for better formatting
+
+============================================================
+COMMON OPERATIONS EXAMPLES:
+============================================================
+
+Creating DataFrame:
+    df = pd.DataFrame(data, index=range(1,16))
+
+Adding Column:
+    df['NewCol'] = values
+
+Deleting Column:
+    del df['ColumnName']
+
+Accessing Data:
+    df.loc[1, 'Column']  # Single value
+    df.loc[[1,2]]        # Multiple rows
+
+Renaming Columns:
+    df.rename(columns={'Old':'New'}, inplace=True)
+
+============================================================
+End of Notes
+============================================================

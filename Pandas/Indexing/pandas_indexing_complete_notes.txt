@@ -1,0 +1,301 @@
+================================================================================
+COMPLETE PANDAS INDEXING OPERATIONS - MASTER NOTES
+================================================================================
+
+TABLE OF CONTENTS:
+------------------
+1. Series Index Objects
+2. Creating and Using Index Objects
+3. DataFrame Creation and Index Checking
+4. Reindexing Operations
+5. Dropping Entries
+6. Indexing, Selection, and Filtering
+7. DataFrame Column/Row Operations
+8. loc vs iloc Selection
+9. Common Pitfalls and Solutions
+10. Quick Reference Guide
+
+================================================================================
+1. SERIES INDEX OBJECTS
+================================================================================
+
+What is an Index?
+-----------------
+- Every Series and DataFrame has an index that labels its data
+- Access via .index attribute
+- Index objects are immutable (cannot be changed after creation)
+
+Key Operations:
+--------------
+series.index              # Get the Index object
+series.index[:1]          # First element of index
+series.index[:-1]         # All except last
+series.index[1:]          # From position 1 to end
+series.index[-1:]         # Last element only
+
+Properties:
+----------
+- Supports array-like operations (slicing, indexing)
+- Can be shared between multiple Series
+- Can have duplicate labels (though not recommended)
+- Zero-based like Python lists
+
+================================================================================
+2. CREATING AND USING INDEX OBJECTS
+================================================================================
+
+Creating Index Objects:
+-----------------------
+pd.Index(list)                    # From list
+pd.Index(np.arange(n))            # From numpy array
+pd.Index(['a','b','c'])           # From string list
+
+Reusing Index Objects:
+---------------------
+labels = pd.Index(['x','y','z'])
+series1 = pd.Series([1,2,3], index=labels)
+series2 = pd.Series([4,5,6], index=labels)  # Reuse same index
+
+Identity Check:
+--------------
+series.index is labels  # True if same object (memory location)
+series.index == labels   # True if same values
+
+================================================================================
+3. DATAFRAME CREATION AND INDEX CHECKING
+================================================================================
+
+Creating DataFrame from Dictionary:
+----------------------------------
+data = {
+    'col1': [val1, val2, ...],
+    'col2': [val1, val2, ...]
+}
+df = pd.DataFrame(data)
+
+Membership Testing:
+------------------
+'column_name' in df.columns    # Check if column exists
+value in df.index              # Check if index label exists
+
+DataFrame Slicing Examples:
+--------------------------
+df[0::]      # All rows (start at 0, step 1)
+df[::]       # All rows (default)
+df[0::-1]    # Reverse order from start
+df[0::1]     # Forward all rows
+
+Select Single Column:
+--------------------
+df.loc[:, ['column']]          # Returns DataFrame with single column
+df['column']                   # Returns Series
+
+================================================================================
+4. REINDEXING OPERATIONS
+================================================================================
+
+Purpose:
+--------
+- Rearrange data to match new index labels
+- Add missing index labels with NaN values
+- Fill missing values using various methods
+
+Syntax:
+------
+series.reindex(new_index)
+df.reindex(new_row_index)
+df.reindex(columns=new_column_index)
+
+Methods for Filling:
+-------------------
+method='ffill'  # Forward fill (carry last value forward)
+method='bfill'  # Backward fill (use next value)
+method='nearest' # Use nearest index value
+
+Examples:
+--------
+series.reindex(['a','b','c','d'])           # Add missing with NaN
+series.reindex(range(6), method='ffill')    # Fill forward
+df.reindex(['a','b','c'], columns=['x','y']) # Reindex both axes
+
+================================================================================
+5. DROPPING ENTRIES
+================================================================================
+
+Dropping from Series:
+--------------------
+series.drop('label')           # Drop single label
+series.drop(['a','b','c'])     # Drop multiple labels
+
+Dropping from DataFrame:
+-----------------------
+df.drop('row_label')                    # Drop rows (axis=0 default)
+df.drop(['row1','row2'])                # Drop multiple rows
+df.drop('column', axis=1)                # Drop column
+df.drop(['col1','col2'], axis='columns') # Drop multiple columns
+
+Important Notes:
+---------------
+- Returns new object by default (doesn't modify original)
+- Use inplace=True to modify original: df.drop('col', axis=1, inplace=True)
+- axis=0 for rows, axis=1 for columns
+
+================================================================================
+6. INDEXING, SELECTION, AND FILTERING
+================================================================================
+
+SERIES INDEXING:
+---------------
+Method                  Syntax                  Description
+-------                 ------                  -----------
+Label-based             series['label']         Access by index label
+Position-based          series.iloc[pos]        Access by integer position
+List of labels          series[['a','b']]       Multiple labels
+List of positions       series.iloc[[0,2]]      Multiple positions
+Label slice             series['a':'c']         Range of labels (inclusive)
+Position slice          series.iloc[0:3]        Range of positions (exclusive)
+Boolean                 series[series>5]        Conditional selection
+
+DATAFRAME INDEXING:
+------------------
+Operation               Syntax                  Result Type
+---------               ------                  -----------
+Single column           df['col']               Series
+Multiple columns        df[['col1','col2']]     DataFrame
+Row slice               df[2:5]                 DataFrame
+Boolean rows            df[df['col']>5]         DataFrame
+
+================================================================================
+7. DATAFRAME COLUMN/ROW OPERATIONS
+================================================================================
+
+Column Selection:
+----------------
+df['column']                    # Single column as Series
+df[['col1','col2']]             # Multiple columns as DataFrame
+
+Row Selection:
+-------------
+df[2:5]                         # Rows by position
+df[df['col'] > value]           # Rows by condition
+
+Boolean Operations:
+-----------------
+df > value                      # Returns boolean DataFrame
+df[df > value] = new_value      # Set values where condition is True
+
+Setting Values:
+--------------
+df['new_column'] = values        # Add new column
+df.loc['row', 'col'] = value     # Set specific cell
+df[df < 5] = 0                   # Set multiple cells
+
+================================================================================
+8. LOC VS ILOC SELECTION
+================================================================================
+
+LOC - Label-based selection:
+----------------------------
+df.loc['row_label']                         # Single row
+df.loc[['row1','row2']]                     # Multiple rows
+df.loc[:, 'col_label']                       # Single column
+df.loc[:, ['col1','col2']]                   # Multiple columns
+df.loc['row1':'row3', 'col1':'col3']         # Slice both axes
+df.loc[df['col'] > 5, ['col1','col2']]       # Boolean + column list
+
+ILOC - Integer position-based selection:
+---------------------------------------
+df.iloc[0]                                   # First row
+df.iloc[[0,2,4]]                             # Rows at positions 0,2,4
+df.iloc[:, 1]                                 # Second column
+df.iloc[:, [0,2]]                             # Columns at positions 0,2
+df.iloc[0:3, 1:4]                            # Row slice 0-2, column slice 1-3
+df.iloc[df['col'] > 5, [0,2]]                 # Boolean + position list
+
+Key Differences:
+---------------
+- loc includes both endpoints in slices
+- iloc excludes endpoint (like Python)
+- loc uses labels, iloc uses positions
+- loc requires existing labels, iloc requires valid positions
+
+================================================================================
+9. COMMON PITFALLS AND SOLUTIONS
+================================================================================
+
+Pitfall 1: Integer Ambiguity
+----------------------------
+Problem: obj[1] with non-integer index causes KeyError
+Solution: Use obj.iloc[1] for position-based access
+
+Pitfall 2: Slice Endpoints
+--------------------------
+Problem: Forgetting that loc includes endpoints
+Solution: Remember: loc['a':'c'] includes 'a','b','c'
+         iloc[0:3] includes positions 0,1,2 (not 3)
+
+Pitfall 3: Chained Assignment
+----------------------------
+Problem: df[df.a > 0]['b'] = 5 (may not work)
+Solution: df.loc[df.a > 0, 'b'] = 5
+
+Pitfall 4: SettingWithCopyWarning
+--------------------------------
+Problem: Modifying a view instead of a copy
+Solution: Use .loc or .iloc explicitly
+
+Pitfall 5: Boolean Operators
+----------------------------
+Problem: (df.a > 0) & (df.b < 5) needs parentheses
+Solution: Always use parentheses with multiple conditions
+
+================================================================================
+10. QUICK REFERENCE GUIDE
+================================================================================
+
+COMMON OPERATIONS:
+-----------------
+# Create Series
+s = pd.Series([1,2,3], index=['a','b','c'])
+
+# Create DataFrame
+df = pd.DataFrame(data, index=row_labels, columns=col_labels)
+
+# View index/columns
+df.index
+df.columns
+
+# Reindex
+df.reindex(new_index)
+df.reindex(columns=new_columns)
+
+# Drop
+df.drop('label')              # drop row
+df.drop('col', axis=1)        # drop column
+
+# Select
+df['col']                     # column as Series
+df[['col1','col2']]           # columns as DataFrame
+df.loc['row']                 # row by label
+df.iloc[0]                    # first row by position
+
+# Filter
+df[df['col'] > 5]             # boolean filtering
+df.loc[df['col'] > 5, 'col']  # filter and select
+
+# Conditional update
+df.loc[df['col'] > 5, 'col'] = 10
+
+SUMMARY OF ACCESS METHODS:
+-------------------------
+| Method    | Selection Type | Slice Behavior          |
+|-----------|---------------|-------------------------|
+| []        | Column/Row    | Mixed (ambiguous)       |
+| .loc[]    | Label-based   | Includes both endpoints |
+| .iloc[]   | Position-based| Excludes endpoint       |
+| .at[]     | Fast scalar label access |
+| .iat[]    | Fast scalar position access |
+
+================================================================================
+END OF COMPLETE NOTES
+================================================================================
