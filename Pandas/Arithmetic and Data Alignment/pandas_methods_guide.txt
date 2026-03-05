@@ -1,0 +1,172 @@
+# PANDAS IMPORTANT METHODS - COMPREHENSIVE GUIDE
+
+## 1. SERIES METHODS
+-------------------
+### Creation and Basic Properties
+- pd.Series(data, index): Create Series with custom index
+- series.index: Get index labels
+- series.values: Get underlying numpy array
+- series.dtype: Get data type
+
+### Indexing and Selection
+- series['label']: Select by index label
+- series[0]: Select by integer position
+- series.loc['label']: Label-based selection
+- series.iloc[0]: Integer position-based selection
+- series.isin(values): Check membership in values
+
+### Operations
+- series.add(other, fill_value): Addition with fill value
+- series.sub(other, fill_value): Subtraction with fill value
+- series.mul(other, fill_value): Multiplication with fill value
+- series.div(other, fill_value): Division with fill value
+- series.rdiv(1): Reverse division (1/series)
+
+## 2. DATAFRAME METHODS
+----------------------
+### Creation and Inspection
+- pd.DataFrame(data, columns, index): Create DataFrame
+- df.head(n): First n rows
+- df.tail(n): Last n rows
+- df.info(): DataFrame info (memory, dtypes)
+- df.describe(): Statistical summary
+- df.shape: Tuple of dimensions
+- df.columns: Column labels
+- df.index: Row labels
+
+### Data Selection
+- df['column']: Select column
+- df[['col1', 'col2']]: Select multiple columns
+- df.loc['row']: Select row by label
+- df.iloc[0]: Select row by position
+- df.loc[rows, cols]: Select specific rows and columns
+- df.iloc[rows, cols]: Select by integer positions
+- df.at['row', 'col']: Fast scalar access by label
+- df.iat[0, 0]: Fast scalar access by position
+
+### Boolean Indexing
+- df[df['col'] > 5]: Filter rows
+- df.query('col > 5'): Query using string expression
+- df.isna(): Check for NaN values
+- df.notna(): Check for non-NaN values
+- df.any(), df.all(): Check any/all True along axis
+
+### Data Operations
+- df.add(df2, fill_value): Element-wise addition
+- df.sub(df2, fill_value): Element-wise subtraction
+- df.mul(df2, fill_value): Element-wise multiplication
+- df.div(df2, fill_value): Element-wise division
+- df.T: Transpose DataFrame
+- df.abs(): Absolute values
+- df.round(decimals): Round values
+
+### Handling Missing Data
+- df.dropna(): Remove missing values
+- df.fillna(value): Fill missing values
+- df.interpolate(): Interpolate missing values
+- df.replace(to_replace, value): Replace values
+
+### Function Application
+- df.apply(func, axis): Apply function along axis
+- df.applymap(func): Apply element-wise (deprecated, use map())
+- df.map(func): Element-wise function application
+- df.pipe(func): Chain operations
+
+### Aggregation and Grouping
+- df.groupby(by): Group data
+- df.agg(func): Aggregate using function
+- df.aggregate(func): Same as agg
+- df.transform(func): Transform each group
+- df.filter(cond): Filter groups
+- df.pivot_table(): Create pivot table
+- df.crosstab(): Cross-tabulation
+
+### Merging and Joining
+- pd.concat([df1, df2], axis): Concatenate DataFrames
+- df1.merge(df2, on='key'): SQL-like merge
+- df1.join(df2): Join on index
+- df1.append(df2): Append rows (deprecated)
+- df.combine_first(df2): Combine with priority
+
+### Reshaping
+- df.pivot(): Reshape data
+- df.melt(): Unpivot DataFrame
+- df.stack(): Stack columns to rows
+- df.unstack(): Unstack rows to columns
+- pd.get_dummies(): One-hot encoding
+
+### Time Series
+- pd.to_datetime(): Convert to datetime
+- df.resample(rule): Resample time series
+- df.rolling(window): Rolling window calculations
+- df.expanding(): Expanding window calculations
+- df.shift(periods): Shift data
+- df.diff(): First discrete difference
+- df.pct_change(): Percentage change
+
+## 3. SORTING AND RANKING
+------------------------
+### Sorting Methods
+- df.sort_index(axis, ascending): Sort by index
+- df.sort_values(by, ascending): Sort by values
+- df.nlargest(n, columns): Largest n values
+- df.nsmallest(n, columns): Smallest n values
+
+### Ranking Methods
+- df.rank(method, ascending): Compute ranks
+  - method='average': Average rank for ties
+  - method='min': Minimum rank for ties
+  - method='max': Maximum rank for ties
+  - method='first': Rank in order of appearance
+  - method='dense': Like min, but ranks increase by 1
+
+## 4. STATISTICAL METHODS
+------------------------
+- df.mean(), df.median(), df.mode()
+- df.min(), df.max()
+- df.std(), df.var()
+- df.corr(), df.cov()
+- df.corrwith()
+- df.quantile(q)
+- df.cumsum(), df.cumprod(), df.cummin(), df.cummax()
+- df.value_counts()
+
+## 5. HANDLING DUPLICATES
+------------------------
+- df.duplicated(): Find duplicate rows
+- df.drop_duplicates(): Remove duplicate rows
+- df.index.is_unique: Check if index is unique
+
+## 6. STRING METHODS (FOR STRING COLUMNS)
+----------------------------------------
+- df['col'].str.lower()/upper()
+- df['col'].str.contains(pattern)
+- df['col'].str.replace(old, new)
+- df['col'].str.split(sep)
+- df['col'].str.strip()
+- df['col'].str.len()
+- df['col'].str.extract(pattern)
+
+## 7. MEMORY AND PERFORMANCE
+---------------------------
+- df.memory_usage(): Memory usage
+- df.astype(dtype): Change data type
+- pd.concat([dfs], ignore_index=True): Efficient concatenation
+- df.copy(): Create copy (avoid view vs copy issues)
+
+## 8. IMPORTANT PARAMETERS
+-------------------------
+### Common Parameters Across Methods
+- axis: 0 for rows/index, 1 for columns
+- inplace: Modify DataFrame in place (True/False)
+- ascending: Sort order (True/False)
+- fill_value: Value to fill missing data
+- level: For MultiIndex operations
+- numeric_only: Only include numeric columns
+
+### Method-Specific Parameters
+- merge(): how (inner, outer, left, right), on, left_on, right_on
+- concat(): join (inner, outer), keys, ignore_index
+- groupby(): as_index, sort, group_keys
+- resample(): label, closed, convention
+- rolling(): window, min_periods, center

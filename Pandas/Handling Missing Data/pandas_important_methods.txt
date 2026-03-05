@@ -1,0 +1,97 @@
+================================================================================
+PANDAS IMPORTANT METHODS - QUICK REFERENCE GUIDE
+================================================================================
+
+1. MISSING DATA METHODS
+--------------------------------------------------------------------------------
+- isnull() / notnull() : Detect missing values (returns boolean mask)
+- dropna() : Remove missing values
+  * how='any' : Drop if ANY NA (default)
+  * how='all' : Drop if ALL NA
+  * thresh=n : Keep rows with at least n non-NA values
+  * axis=0 : Rows (default), axis=1 : Columns
+
+- fillna() : Fill missing values
+  * fillna(value) : Replace with single value
+  * fillna({col: value}) : Column-specific values
+  * method='ffill'/'bfill' : Forward/backward fill
+  * limit=n : Limit consecutive fills
+  * inplace=True : Modify original
+
+2. DUPLICATE HANDLING
+--------------------------------------------------------------------------------
+- duplicated() : Identify duplicate rows (returns boolean Series)
+- drop_duplicates() : Remove duplicate rows
+  * subset=['col1','col2'] : Check duplicates on specific columns
+  * keep='first'/'last'/False : Which duplicate to keep
+
+3. DATA TRANSFORMATION
+--------------------------------------------------------------------------------
+- map() : Substitute each value in a Series (dictionary or function)
+- apply() : Apply function to DataFrame (axis=0 for columns, axis=1 for rows)
+- applymap() : Apply function element-wise to entire DataFrame
+- replace() : Replace values (supports list and dict mappings)
+
+4. STRING METHODS (via .str accessor)
+--------------------------------------------------------------------------------
+- str.lower() / str.upper() : Case conversion
+- str.strip() : Remove whitespace
+- str.split() : Split strings
+- str.contains() : Check if pattern exists
+- str.extract() : Extract regex groups
+
+5. INDEX/COLUMN OPERATIONS
+--------------------------------------------------------------------------------
+- rename() : Rename index/columns
+  * index=str.title : Function mapping
+  * columns={'old':'new'} : Dictionary mapping
+  * inplace=True : Modify original
+
+- set_index() : Set column as index
+- reset_index() : Reset to default integer index
+
+6. BINNING METHODS
+--------------------------------------------------------------------------------
+- cut() : Segment data into bins
+  * bins : Integer (number of equal-width bins) or sequence (bin edges)
+  * labels : Custom bin labels
+  * right=False : Left-closed intervals
+  * precision : Decimal precision for labels
+
+- qcut() : Quantile-based binning
+  * q : Number of quantiles or list of quantiles
+  * Same parameters as cut()
+
+7. DUMMY VARIABLES
+--------------------------------------------------------------------------------
+- get_dummies() : Convert categorical to indicator variables
+  * prefix : Add prefix to column names
+  * dummy_na : Create dummy for NA values
+  * drop_first : Drop first category to avoid multicollinearity
+
+8. COMMON PARAMETERS ACROSS METHODS
+--------------------------------------------------------------------------------
+- axis : 0=rows/index, 1=columns
+- inplace : Modify original object (True/False)
+- level : For MultiIndex operations
+- na_action : Handle NA values in mappings
+
+9. HELPFUL TIPS
+--------------------------------------------------------------------------------
+- Always check data types with .dtypes after operations
+- Use .info() to see memory usage and non-null counts
+- Chain operations carefully (use .copy() to avoid warnings)
+- For large datasets, consider inplace operations to save memory
+- Use .value_counts() to check categorical distributions
+
+10. COMMON PITFALLS
+--------------------------------------------------------------------------------
+- Forgetting to import numpy for NaN (np.nan)
+- Using map() on DataFrame (use apply() instead)
+- Not handling NA values before operations
+- Forgetting that None converts to NaN in pandas
+- Using chained assignment (df[df.a>0]['b'] = 5) - causes SettingWithCopyWarning
+
+================================================================================
+END OF NOTES
+================================================================================
